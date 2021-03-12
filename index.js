@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  name: 'BPMN Process Input/Output Definitions',
+  name: 'Paradigma Property Panel',
   menu: './menu/menu.js',
   script: './client/client-bundle.js',
   style: './style/style.css'
