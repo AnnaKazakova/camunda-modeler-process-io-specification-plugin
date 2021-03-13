@@ -32,7 +32,7 @@ function getIoParameterLabel(param) {
 };
 
 /**
- * Create I/O Specification extension group tab with the contained groups.
+ * Create our extension group tab with the contained groups.
  */
 function createProcessIoTab(element, injector) {
 
@@ -83,57 +83,6 @@ function createProcessIoTab(element, injector) {
   return processIoTab;
 }
 
-/**
- * Create Paradigma extension group tab with the contained groups.
- */
- function createParadigmaProcessTab(element, injector) {
-
-  var paradigmaProcessGroup = {
-    id: 'paradigma-process-group',
-    label: 'Paradigma',
-    entries: []
-  };
-  
-  // create groups showing input and output parameters
-
-  var {
-    getSelectedParameter
-  } = injector.invoke(processIoProps, null, { group: paradigmaProcessGroup, element: element });
-
-  var processIoEntryGroup = {
-    id: 'process-io-entry-group',
-    entries: [],
-    enabled: function(element, node) {
-      return getSelectedParameter(element, node);
-    },
-    label: function(element, node) {
-      var property = getSelectedParameter(element, node);
-
-      return property && getIoParameterLabel(property) || '';
-    }
-  };
-
-  // create single entry edit group
-
-  injector.invoke(processIoEntryProps, null, {
-    group: processIoEntryGroup,
-    element: element,
-    options: {
-      getSelectedParameter,
-      processIoEntryGroup
-    }
-  });
-
-  var paradigmaProcessTab = {
-    id: 'paradigma-process-tab',
-    label: 'Paradirma',
-    groups: [
-      paradigmaProcessGroup
-    ]
-  };
-
-  return paradigmaProcessTab;
-}
 
 /**
  * An extension that makes process IO mappings configurable via a new
@@ -162,9 +111,7 @@ export default function ProcessIoExtensionProvider(injector) {
     ) {
       var positionTab = createProcessIoTab(element, injector);
 
-      var paradigmaProcessTab = createParadigmaProcessTab(element, injector);
-
-      tabs = tabs.slice(0, 1).concat(positionTab).concat(paradigmaProcessTab).concat(tabs.slice(1));
+      tabs = tabs.slice(0, 1).concat(positionTab).concat(tabs.slice(1));
     }
 
     return tabs;
